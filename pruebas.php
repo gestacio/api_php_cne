@@ -1,10 +1,11 @@
 <?php
 
 include 'Cne.php';
+include 'BuscarCNE.php';
 
-$cne = new CNE;
+$cne = new BuscarCNE;
 
-$respuesta = $cne->obtenerElector("V", "2948965");
+$respuesta = $cne->obtenerElector("V", "20490008");
 
 echo $respuesta;
 

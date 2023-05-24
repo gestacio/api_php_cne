@@ -5,7 +5,7 @@ class CNE {
         $url = "http://www.cne.gob.ve/web/registro_electoral/ce.php?nacionalidad=".$nacionalidad."&cedula=".$cedula;
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_REFERER,'http://www.cne.gob.ve/');
+        curl_setopt($ch,CURLOPT_REFERER,'http://www.cne.gob.ve/');
         curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (X11; Linux i686; rv:32.0) Gecko/20100101 Firefox/32.0');
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
         curl_setopt($ch,CURLOPT_FRESH_CONNECT,TRUE);
