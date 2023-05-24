@@ -1,50 +1,39 @@
 <?php
 
-$res = file_get_contents("http://www.cne.gov.ve/web/registro_electoral/ce.php?nacionalidad=V&cedula=20490008");
+$res = file_get_contents("http://www.cne.gov.ve/web/registro_electoral/ce.php?nacionalidad=V&cedula=25221952");
+// $res = str_replace("<", "", $res);
 $res = str_replace(">", "<>", $res);
 $splitCode = explode("<", $res);
 
-var_dump($splitCode);
-$noRegistrada = $splitCode[124];
+// var_dump($splitCode);
+$registrada = $splitCode[80];
 
-if ($noRegistrada === ">Esta cédula de identidad no se encuentra inscrito en el Registro Electoral.") {
+if (!($registrada === ">DATOS DEL ELECTOR")) {
     echo json_encode(['Error:' => "Esta cedula de identidad no se encuentra inscrito en el Registro Electoral."]);
 } else {
-    $cedula = $splitCode[110];
-    $nombre = $splitCode[132];
-    $estado = $splitCode[154];
-    $municipio = $splitCode[174];
-    $parroquia = $splitCode[194];
-    $centro = $splitCode[216];
-    $direccion = $splitCode[240];
-    
-    $registrado = array(
-        'cedula' => $cedula,
-        'nombre' => $nombre,
-        'estado' => $estado,
-        'municipio' => $municipio,
-        'parroquia' => $parroquia,
-        'centro' => $centro,
-        'direccion' => $direccion
+    $registrado = array();
+
+    $cedula = format_response($splitCode[110]);
+    $nombre = format_response($splitCode[132]);
+    $estado = format_response($splitCode[154]);
+    $municipio = format_response($splitCode[174]);
+    $parroquia = format_response($splitCode[194]);
+    $centro = format_response($splitCode[216]);
+    $direccion = format_response($splitCode[240]);
+
+    $contribuyente = array(
+        'Cedula' => $cedula,
+        'Nombre' => $nombre,
+        'Estado' => $estado,
+        'Municipio' => $municipio,
+        'Parroquia' => $parroquia,
+        'Centro' => $centro,
+        'Direccion' => $direccion,
     );
-    
-    $texto = <<<API
-    $cedula
-    $nombre
-    $estado
-    $municipio
-    $parroquia
-    $centro
-    $direccion
-    API;
-    
-    
-    $texto = str_replace(">", "", $texto);
-    $texto = strtolower($texto);
-    $texto = ucwords($texto);
-    
-    echo json_encode($registrado);
+  
+    echo json_encode($contribuyente);
 }
 
-
-?>
+function format_response(string $parameter) {
+    return $parameter = ucwords(strtolower(str_replace(">", "", $parameter)));
+}
