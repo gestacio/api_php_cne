@@ -1,13 +1,13 @@
 <?php
 
-$res = file_get_contents("http://www.cne.gov.ve/web/registro_electoral/ce.php?nacionalidad=V&cedula=25221952");
+$res = file_get_contents("http://www.cne.gov.ve/web/registro_electoral/ce.php?nacionalidad=V&cedula=20490008");
 $res = str_replace(">", "<>", $res);
 $splitCode = explode("<", $res);
 
-// var_dump($splitCode);
+var_dump($splitCode);
 $noRegistrada = $splitCode[124];
 
-if ($noRegistrada = ">Esta cédula de identidad no se encuentra inscrito en el Registro Electoral.") {
+if ($noRegistrada === ">Esta cédula de identidad no se encuentra inscrito en el Registro Electoral.") {
     echo json_encode(['Error:' => "Esta cedula de identidad no se encuentra inscrito en el Registro Electoral."]);
 } else {
     $cedula = $splitCode[110];
